@@ -262,10 +262,36 @@ body {
     background: var(--white);
 }
 
+.pets-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.btn-add-pet {
+    background: var(--gradient);
+    color: var(--white);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.btn-add-pet:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
 .featured-pets h2 {
-    text-align: center;
     font-size: 2.5rem;
-    margin-bottom: 3rem;
+    margin: 0;
     color: var(--text-dark);
 }
 
