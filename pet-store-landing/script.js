@@ -207,3 +207,93 @@ document.addEventListener('DOMContentLoaded', function() {
     const counterObserver = new IntersectionObserver(animateCounters, observerOptions);
     counters.forEach(counter => counterObserver.observe(counter));
 });
+
+function openAddPetModal() {
+    document.getElementById('addPetModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAddPetModal() {
+    document.getElementById('addPetModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    document.getElementById('addPetForm').reset();
+}
+
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('addPetModal');
+    if (event.target === modal) {
+        closeAddPetModal();
+    }
+});
+
+document.getElementById('addPetForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const petName = formData.get('petName');
+    const petBreed = formData.get('petBreed');
+    const petAge = formData.get('petAge');
+    const petImage = formData.get('petImage') || 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300&h=300&fit=crop';
+    const petDescription = formData.get('petDescription');
+    
+    if (!petName || !petBreed || !petAge) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+    
+    const petCard = document.createElement('div');
+    petCard.className = 'pet-card';
+    petCard.innerHTML = `
+        <img src="${petImage}" alt="${petBreed}" onerror="this.src='https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300&h=300&fit=crop'">
+        <div class="pet-info">
+            <h3>${petName}</h3>
+            <p class="breed">${petBreed}</p>
+            <p class="age">${petAge}</p>
+            <button class="btn-adopt">Adopt Me</button>
+        </div>
+    `;
+    
+    const adoptButton = petCard.querySelector('.btn-adopt');
+    adoptButton.addEventListener('click', function() {
+        const petName = this.closest('.pet-card').querySelector('h3').textContent;
+        alert(`Thank you for your interest in adopting ${petName}! We'll contact you soon with more information.`);
+    });
+    
+    petCard.style.opacity = '0';
+    petCard.style.transform = 'translateY(30px)';
+    petCard.style.transition = 'all 0.6s ease-out';
+    
+    document.querySelector('.pets-grid').appendChild(petCard);
+    
+    setTimeout(() => {
+        petCard.style.opacity = '1';
+        petCard.style.transform = 'translateY(0)';
+    }, 100);
+    
+    closeAddPetModal();
+    
+    const successMessage = document.createElement('div');
+    successMessage.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px 20px;
+            border-radius: 10px;
+            z-index: 1001;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        ">
+            <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
+            ${petName} has been added successfully!
+        </div>
+    `;
+    
+    document.body.appendChild(successMessage);
+    
+    setTimeout(() => {
+        successMessage.remove();
+    }, 3000);
+});
