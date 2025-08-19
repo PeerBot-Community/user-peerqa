@@ -206,4 +206,117 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const counterObserver = new IntersectionObserver(animateCounters, observerOptions);
     counters.forEach(counter => counterObserver.observe(counter));
+
+    // Add Pet Modal Functionality
+    const addPetBtn = document.getElementById('addPetBtn');
+    const addPetModal = document.getElementById('addPetModal');
+    const closeModal = document.querySelector('.close');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const addPetForm = document.getElementById('addPetForm');
+    const petsGrid = document.querySelector('.pets-grid');
+
+    // Open modal
+    addPetBtn.addEventListener('click', function() {
+        addPetModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Close modal functions
+    function closeAddPetModal() {
+        addPetModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        addPetForm.reset();
+    }
+
+    closeModal.addEventListener('click', closeAddPetModal);
+    cancelBtn.addEventListener('click', closeAddPetModal);
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(e) {
+        if (e.target === addPetModal) {
+            closeAddPetModal();
+        }
+    });
+
+    // Handle form submission
+    addPetForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const petName = formData.get('petName');
+        const petBreed = formData.get('petBreed');
+        const petAge = formData.get('petAge');
+        const petImage = formData.get('petImage');
+        const petDescription = formData.get('petDescription');
+
+        // Validate required fields
+        if (!petName || !petBreed || !petAge || !petImage) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+
+        // Create new pet card
+        const newPetCard = document.createElement('div');
+        newPetCard.className = 'pet-card';
+        newPetCard.innerHTML = `
+            <img src="${petImage}" alt="${petBreed}" onerror="this.src='https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=300&h=300&fit=crop'">
+            <div class="pet-info">
+                <h3>${petName}</h3>
+                <p class="breed">${petBreed}</p>
+                <p class="age">${petAge}</p>
+                ${petDescription ? `<p class="description">${petDescription}</p>` : ''}
+                <button class="btn-adopt">Adopt Me</button>
+            </div>
+        `;
+
+        // Add event listener to new adopt button
+        const newAdoptBtn = newPetCard.querySelector('.btn-adopt');
+        newAdoptBtn.addEventListener('click', function() {
+            const petName = this.closest('.pet-card').querySelector('h3').textContent;
+            alert(`Thank you for your interest in adopting ${petName}! We'll contact you soon with more information.`);
+        });
+
+        // Add animation classes for new card
+        newPetCard.style.opacity = '0';
+        newPetCard.style.transform = 'translateY(30px)';
+        newPetCard.style.transition = 'all 0.6s ease-out';
+
+        // Add to pets grid
+        petsGrid.appendChild(newPetCard);
+
+        // Animate in
+        setTimeout(() => {
+            newPetCard.style.opacity = '1';
+            newPetCard.style.transform = 'translateY(0)';
+        }, 100);
+
+        // Close modal and show success message
+        closeAddPetModal();
+        
+        // Show success message
+        const successMessage = document.createElement('div');
+        successMessage.innerHTML = `
+            <div style="
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #d4edda;
+                border: 1px solid #c3e6cb;
+                color: #155724;
+                padding: 15px 20px;
+                border-radius: 10px;
+                z-index: 10000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            ">
+                <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
+                ${petName} has been added successfully!
+            </div>
+        `;
+        
+        document.body.appendChild(successMessage);
+        
+        setTimeout(() => {
+            successMessage.remove();
+        }, 4000);
+    });
 });
