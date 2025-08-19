@@ -1,0 +1,32 @@
+{
+  "name": "paws-whiskers-pet-store",
+  "version": "1.0.0",
+  "description": "A beautiful landing page for Paws & Whiskers Pet Store - connecting loving families with their perfect pet companions",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 8000",
+    "start": "python -m http.server 8000",
+    "build": "echo 'No build step required for static site'",
+    "preview": "python -m http.server 8000"
+  },
+  "keywords": [
+    "pet-store",
+    "landing-page",
+    "pets",
+    "adoption",
+    "animals",
+    "responsive-design",
+    "html",
+    "css",
+    "javascript"
+  ],
+  "author": "Paws & Whiskers Pet Store",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PeerBot-Community/user-peerqa.git"
+  },
+  "homepage": "./",
+  "devDependencies": {},
+  "dependencies": {}
+}
