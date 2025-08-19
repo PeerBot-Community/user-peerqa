@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paws & Whiskers Pet Store - Your Pet's Best Friend</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>🐾 Paws & Whiskers</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#pets" class="nav-link">Our Pets</a></li>
+                <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Find Your Perfect Companion</h1>
+            <p>Welcome to Paws & Whiskers, where loving pets find their forever homes. Discover amazing dogs, cats, and exotic pets waiting to become part of your family.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary">Adopt Now</button>
+                <button class="btn btn-secondary">Learn More</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="pet-showcase">
+                <div class="pet-card featured">
+                    <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=300&h=300&fit=crop&crop=face" alt="Golden Retriever">
+                    <h3>Buddy</h3>
+                    <p>Golden Retriever</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pets" class="pets-section">
+        <div class="container">
+            <h2 class="section-title">Meet Our Amazing Pets</h2>
+            <div class="pets-filter">
+                <button class="filter-btn active" data-filter="all">All Pets</button>
+                <button class="filter-btn" data-filter="dogs">Dogs</button>
+                <button class="filter-btn" data-filter="cats">Cats</button>
+                <button class="filter-btn" data-filter="exotic">Exotic</button>
+            </div>
+            <div class="pets-grid" id="petsGrid">
+                <!-- Pet cards will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services-section">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🏥</div>
+                    <h3>Pet Healthcare</h3>
+                    <p>Complete veterinary care including vaccinations, health checks, and emergency services.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">✂️</div>
+                    <h3>Pet Grooming</h3>
+                    <p>Professional grooming services to keep your pets looking and feeling their best.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🎓</div>
+                    <h3>Pet Training</h3>
+                    <p>Expert training programs for puppies and adult dogs to ensure good behavior.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏨</div>
+                    <h3>Pet Boarding</h3>
+                    <p>Safe and comfortable boarding facilities for when you're away from home.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About Paws & Whiskers</h2>
+                    <p>For over 15 years, Paws & Whiskers has been connecting loving families with their perfect pet companions. We're more than just a pet store – we're a community dedicated to animal welfare and responsible pet ownership.</p>
+                    <p>Our experienced team carefully screens all our pets and provides ongoing support to ensure successful adoptions. We believe every pet deserves a loving home, and every family deserves the joy of a furry friend.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <h3>2,500+</h3>
+                            <p>Happy Adoptions</p>
+                        </div>
+                        <div class="stat">
+                            <h3>15</h3>
+                            <p>Years of Service</p>
+                        </div>
+                        <div class="stat">
+                            <h3>98%</h3>
+                            <p>Customer Satisfaction</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=500&h=400&fit=crop" alt="Pet store interior">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Visit Us Today</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h3>📍 Location</h3>
+                        <p>123 Pet Paradise Lane<br>Happy Valley, CA 94123</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>📞 Phone</h3>
+                        <p>(555) 123-PETS<br>(555) 123-7387</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>⏰ Hours</h3>
+                        <p>Mon-Fri: 9AM - 8PM<br>Sat-Sun: 10AM - 6PM</p>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Get in Touch</h3>
+                    <form>
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <input type="tel" placeholder="Phone Number">
+                        <select>
+                            <option>I'm interested in...</option>
+                            <option>Adopting a pet</option>
+                            <option>Pet services</option>
+                            <option>General inquiry</option>
+                        </select>
+                        <textarea placeholder="Your message..."></textarea>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🐾 Paws & Whiskers</h3>
+                    <p>Connecting loving families with their perfect pet companions since 2008.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#pets">Available Pets</a></li>
+                        <li><a href="#services">Our Services</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Pet Adoption</a></li>
+                        <li><a href="#">Healthcare</a></li>
+                        <li><a href="#">Grooming</a></li>
+                        <li><a href="#">Training</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#">📘 Facebook</a>
+                        <a href="#">📸 Instagram</a>
+                        <a href="#">🐦 Twitter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Paws & Whiskers Pet Store. All rights reserved. Made with ❤️ for pets and their families.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
