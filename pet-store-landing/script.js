@@ -206,4 +206,125 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const counterObserver = new IntersectionObserver(animateCounters, observerOptions);
     counters.forEach(counter => counterObserver.observe(counter));
+
+    // Add Pet Modal functionality
+    const addPetBtn = document.getElementById('addPetBtn');
+    const modal = document.getElementById('addPetModal');
+    const closeModal = document.getElementById('closeModal');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const addPetForm = document.getElementById('addPetForm');
+    const petsGrid = document.querySelector('.pets-grid');
+
+    // Open modal
+    addPetBtn.addEventListener('click', function() {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Close modal functions
+    function closeModalFunc() {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        addPetForm.reset();
+    }
+
+    closeModal.addEventListener('click', closeModalFunc);
+    cancelBtn.addEventListener('click', closeModalFunc);
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            closeModalFunc();
+        }
+    });
+
+    // Handle form submission
+    addPetForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const petData = {
+            name: formData.get('petName'),
+            breed: formData.get('petBreed'),
+            age: formData.get('petAge'),
+            type: formData.get('petType'),
+            image: formData.get('petImage'),
+            description: formData.get('petDescription') || 'A wonderful pet looking for a loving home!'
+        };
+
+        // Validate image URL
+        const img = new Image();
+        img.onload = function() {
+            addNewPetCard(petData);
+            closeModalFunc();
+            
+            // Show success message
+            const successDiv = document.createElement('div');
+            successDiv.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #d4edda;
+                    border: 1px solid #c3e6cb;
+                    color: #155724;
+                    padding: 15px 20px;
+                    border-radius: 10px;
+                    z-index: 3000;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                ">
+                    <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
+                    ${petData.name} has been added successfully!
+                </div>
+            `;
+            document.body.appendChild(successDiv);
+            
+            setTimeout(() => {
+                successDiv.remove();
+            }, 3000);
+        };
+        
+        img.onerror = function() {
+            alert('Please enter a valid image URL that points to an actual image.');
+        };
+        
+        img.src = petData.image;
+    });
+
+    // Function to add new pet card
+    function addNewPetCard(petData) {
+        const newPetCard = document.createElement('div');
+        newPetCard.className = 'pet-card';
+        newPetCard.style.opacity = '0';
+        newPetCard.style.transform = 'translateY(30px)';
+        
+        newPetCard.innerHTML = `
+            <img src="${petData.image}" alt="${petData.breed}" style="object-fit: cover;">
+            <div class="pet-info">
+                <h3>${petData.name}</h3>
+                <p class="breed">${petData.breed}</p>
+                <p class="age">${petData.age}</p>
+                <button class="btn-adopt">Adopt Me</button>
+            </div>
+        `;
+        
+        // Add click handler for the new adopt button
+        const adoptBtn = newPetCard.querySelector('.btn-adopt');
+        adoptBtn.addEventListener('click', function() {
+            const petName = this.closest('.pet-card').querySelector('h3').textContent;
+            alert(`Thank you for your interest in adopting ${petName}! We'll contact you soon with more information.`);
+        });
+        
+        petsGrid.appendChild(newPetCard);
+        
+        // Animate the new card
+        setTimeout(() => {
+            newPetCard.style.transition = 'all 0.6s ease-out';
+            newPetCard.style.opacity = '1';
+            newPetCard.style.transform = 'translateY(0)';
+        }, 100);
+        
+        // Observe the new card for animations
+        observer.observe(newPetCard);
+    }
 });
