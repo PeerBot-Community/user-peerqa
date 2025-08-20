@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversation Sync Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .chat-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 8px 12px;
+            border-radius: 15px;
+            max-width: 70%;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+        .bot-message {
+            background-color: #e9ecef;
+            color: #333;
+        }
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .sync-status {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 12px;
+            color: #666;
+        }
+        .sync-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        .synced {
+            background-color: #28a745;
+        }
+        .syncing {
+            background-color: #ffc107;
+            animation: pulse 1s infinite;
+        }
+        .error {
+            background-color: #dc3545;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Conversation Sync Test</h1>
+    <div class="chat-container">
+        <div class="sync-status">
+            <span class="sync-indicator synced"></span>
+            <span id="sync-status-text">Connected and Synced</span>
+        </div>
+        <div class="messages" id="messages"></div>
+        <div class="input-area">
+            <input type="text" id="messageInput" placeholder="Type a message to test sync..." />
+            <button onclick="sendMessage()">Send</button>
+            <button onclick="testSync()">Test Sync</button>
+        </div>
+    </div>
+
+    <script>
+        let messageId = 1;
+        let syncStatus = 'synced';
+
+        function updateSyncStatus(status) {
+            const indicator = document.querySelector('.sync-indicator');
+            const statusText = document.getElementById('sync-status-text');
+            
+            indicator.className = `sync-indicator ${status}`;
+            
+            switch(status) {
+                case 'synced':
+                    statusText.textContent = 'Connected and Synced';
+                    break;
+                case 'syncing':
+                    statusText.textContent = 'Syncing...';
+                    break;
+                case 'error':
+                    statusText.textContent = 'Sync Error';
+                    break;
+            }
+            syncStatus = status;
+        }
+
+        function addMessage(text, isUser = true) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            messageDiv.innerHTML = `${text} <small>(ID: ${messageId++})</small>`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            // Simulate sync process
+            simulateSync();
+        }
+
+        function simulateSync() {
+            updateSyncStatus('syncing');
+            
+            setTimeout(() => {
+                // Randomly simulate sync success or failure
+                const success = Math.random() > 0.1; // 90% success rate
+                updateSyncStatus(success ? 'synced' : 'error');
+                
+                if (!success) {
+                    setTimeout(() => {
+                        updateSyncStatus('synced');
+                    }, 2000);
+                }
+            }, 1000 + Math.random() * 2000);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            
+            if (text) {
+                addMessage(text, true);
+                input.value = '';
+                
+                // Simulate bot response
+                setTimeout(() => {
+                    const responses = [
+                        "Message received and synced!",
+                        "Sync test successful",
+                        "Your message has been synchronized across all devices",
+                        "Conversation sync is working properly"
+                    ];
+                    addMessage(responses[Math.floor(Math.random() * responses.length)], false);
+                }, 1000 + Math.random() * 2000);
+            }
+        }
+
+        function testSync() {
+            updateSyncStatus('syncing');
+            addMessage("Testing conversation sync feature...", true);
+            
+            setTimeout(() => {
+                addMessage("Sync test completed successfully! All messages are synchronized.", false);
+                updateSyncStatus('synced');
+            }, 2000);
+        }
+
+        // Enter key support
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Initialize with a welcome message
+        setTimeout(() => {
+            addMessage("Welcome! This is a conversation sync test interface.", false);
+        }, 500);
+    </script>
+</body>
+</html>
