@@ -1,0 +1,26 @@
+{
+  "name": "test-orchestrator",
+  "version": "1.0.0",
+  "description": "A test orchestrator built with Bun runtime",
+  "type": "module",
+  "main": "src/orchestrator.ts",
+  "scripts": {
+    "start": "bun run src/orchestrator.ts",
+    "dev": "bun --watch src/orchestrator.ts",
+    "test": "bun test",
+    "build": "bun build src/orchestrator.ts --outdir ./dist --target bun",
+    "lint": "echo 'Linting not configured yet'"
+  },
+  "keywords": ["test", "orchestrator", "bun", "testing"],
+  "author": "user-peerqa",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  }
+}
