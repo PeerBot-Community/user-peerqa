@@ -1,0 +1,82 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: worker-job
+  namespace: default
+  labels:
+    app: worker
+    type: job
+spec:
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      serviceAccountName: worker-service-account
+      restartPolicy: Never
+      containers:
+      - name: worker
+        image: alpine:latest
+        command: ["sh", "-c"]
+        args:
+        - |
+          echo "Worker starting..."
+          echo "Testing RBAC permissions..."
+          
+          # Test if we can access the Kubernetes API
+          if command -v curl > /dev/null; then
+            echo "Testing API access..."
+            curl -k -H "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+              https://kubernetes.default.svc.cluster.local/api/v1/namespaces/default/pods || echo "API access failed"
+          fi
+          
+          echo "Worker completed"
+        env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        volumeMounts:
+        - name: service-account-token
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          readOnly: true
+      volumes:
+      - name: service-account-token
+        secret:
+          secretName: worker-service-account-token
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-deployment
+  namespace: default
+  labels:
+    app: worker
+    type: deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      serviceAccountName: worker-service-account
+      containers:
+      - name: worker
+        image: alpine:latest
+        command: ["sh", "-c"]
+        args:
+        - |
+          echo "Worker pod starting..."
+          while true; do
+            echo "Worker running at $(date)"
+            sleep 30
+          done
+        env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace

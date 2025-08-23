@@ -1,0 +1,15 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: worker-cluster-role-binding
+  labels:
+    app: worker
+    component: rbac
+subjects:
+- kind: ServiceAccount
+  name: worker-service-account
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: worker-cluster-role
+  apiGroup: rbac.authorization.k8s.io
