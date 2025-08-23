@@ -1,0 +1,13 @@
+{
+  "name": "test-worker",
+  "version": "1.0.0",
+  "description": "Standalone test worker without configmap communication",
+  "main": "test-worker.js",
+  "scripts": {
+    "start": "node test-worker.js",
+    "test": "node test-worker.js"
+  },
+  "keywords": ["worker", "test", "standalone"],
+  "author": "PeerBot Community",
+  "license": "MIT"
+}
