@@ -79,6 +79,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const phone = this.querySelector('input[type="tel"]').value;
             const service = this.querySelector('select').value;
             const message = this.querySelector('textarea').value;
+            
+            console.log('Form submission:', { name, email, phone, service, message });
 
             if (!name || !email || !service || !message) {
                 alert('Please fill in all required fields.');
