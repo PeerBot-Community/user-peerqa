@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Intentional error for Sentry testing
+    throw new Error('Test error for Sentry monitoring');
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     const header = document.querySelector('.header');
