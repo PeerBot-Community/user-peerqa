@@ -1,0 +1,16 @@
+{
+  "name": "1756410367.724669",
+  "version": "1.0.0",
+  "description": "Personal workspace for user-peerqa - Claude Code Slack Bot",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
