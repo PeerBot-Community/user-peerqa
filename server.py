@@ -7,5 +7,5 @@ class SimpleHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(b'Hello from test server')
 
-server = HTTPServer(('0.0.0.0', 8000), SimpleHandler)
+server = HTTPServer(('0.0.0.0', 8080), SimpleHandler)
 server.serve_forever()
