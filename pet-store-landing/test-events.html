@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Handler Test - Paws & Whiskers</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .test-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 300px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            z-index: 10000;
+            font-family: 'Poppins', sans-serif;
+        }
+        .test-panel h3 {
+            margin: 0 0 15px 0;
+            color: #007bff;
+            font-size: 16px;
+        }
+        .test-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 8px 0;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        .test-item.pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        .test-item.fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .test-item.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .test-controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        .test-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .test-btn.primary {
+            background: #007bff;
+            color: white;
+        }
+        .test-btn.secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .test-log {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+            font-size: 10px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <!-- Test Panel -->
+    <div class="test-panel">
+        <h3>Event Handler Tests</h3>
+        <div id="test-results">
+            <div class="test-item pending" id="test-hamburger">
+                <span>Hamburger Menu</span>
+                <span>⏳</span>
+            </div>
+            <div class="test-item pending" id="test-nav-links">
+                <span>Nav Links</span>
+                <span>⏳</span>
+            </div>
+            <div class="test-item pending" id="test-scroll-header">
+                <span>Scroll Header</span>
+                <span>⏳</span>
+            </div>
+            <div class="test-item pending" id="test-scroll-top">
+                <span>Scroll to Top</span>
+                <span>⏳</span>
+            </div>
+            <div class="test-item pending" id="test-smooth-scroll">
+                <span>Smooth Scroll</span>
+                <span>⏳</span>
+            </div>
+            <div class="test-item pending" id="test-adopt-buttons">
+                <span>Adopt Buttons</span>
+                <span>⏳</span>
+            </div>
+            <div class="test-item pending" id="test-contact-form">
+                <span>Contact Form</span>
+                <span>⏳</span>
+            </div>
+            <div class="test-item pending" id="test-hero-buttons">
+                <span>Hero Buttons</span>
+                <span>⏳</span>
+            </div>
+            <div class="test-item pending" id="test-newsletter">
+                <span>Newsletter</span>
+                <span>⏳</span>
+            </div>
+            <div class="test-item pending" id="test-animations">
+                <span>Animations</span>
+                <span>⏳</span>
+            </div>
+        </div>
+        <div class="test-controls">
+            <button class="test-btn primary" onclick="runAllTests()">Run All Tests</button>
+            <button class="test-btn secondary" onclick="clearResults()">Clear</button>
+        </div>
+        <div class="test-log" id="test-log"></div>
+    </div>
+
+    <!-- Original page content -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-paw"></i>
+                    <span>Paws & Whiskers</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#pets">Our Pets</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Find Your Perfect Companion</h1>
+                <p>At Paws & Whiskers, we connect loving families with adorable pets. From playful puppies to cuddly kittens, your new best friend is waiting for you!</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary">Browse Pets</button>
+                    <button class="btn-secondary">Learn More</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=600&h=400&fit=crop" alt="Happy pets">
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="container">
+                <h2>Our Services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <i class="fas fa-heart"></i>
+                        <h3>Pet Adoption</h3>
+                        <p>Find your perfect furry friend from our carefully vetted selection of rescued and rehomed pets.</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-user-md"></i>
+                        <h3>Health Care</h3>
+                        <p>Complete veterinary services including vaccinations, check-ups, and emergency care for your pet.</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-cut"></i>
+                        <h3>Grooming</h3>
+                        <p>Professional grooming services to keep your pet looking and feeling their absolute best.</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Training</h3>
+                        <p>Expert training programs for puppies and adult dogs to ensure good behavior and obedience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pets" class="featured-pets">
+            <div class="container">
+                <h2>Featured Pets</h2>
+                <div class="pets-grid">
+                    <div class="pet-card">
+                        <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=300&h=300&fit=crop" alt="Golden Retriever">
+                        <div class="pet-info">
+                            <h3>Buddy</h3>
+                            <p class="breed">Golden Retriever</p>
+                            <p class="age">2 years old</p>
+                            <button class="btn-adopt">Adopt Me</button>
+                        </div>
+                    </div>
+                    <div class="pet-card">
+                        <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300&h=300&fit=crop" alt="Tabby Cat">
+                        <div class="pet-info">
+                            <h3>Luna</h3>
+                            <p class="breed">Tabby Cat</p>
+                            <p class="age">1 year old</p>
+                            <button class="btn-adopt">Adopt Me</button>
+                        </div>
+                    </div>
+                    <div class="pet-card">
+                        <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=300&h=300&fit=crop" alt="Beagle">
+                        <div class="pet-info">
+                            <h3>Charlie</h3>
+                            <p class="breed">Beagle</p>
+                            <p class="age">3 years old</p>
+                            <button class="btn-adopt">Adopt Me</button>
+                        </div>
+                    </div>
+                    <div class="pet-card">
+                        <img src="https://images.unsplash.com/photo-1606214174585-fe31582cd601?w=300&h=300&fit=crop" alt="Persian Cat">
+                        <div class="pet-info">
+                            <h3>Whiskers</h3>
+                            <p class="breed">Persian Cat</p>
+                            <p class="age">4 years old</p>
+                            <button class="btn-adopt">Adopt Me</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>About Paws & Whiskers</h2>
+                        <p>For over 15 years, Paws & Whiskers has been dedicated to connecting loving families with their perfect pet companions. We believe every animal deserves a loving home, and every family deserves the joy that comes with pet ownership.</p>
+                        <p>Our experienced team works tirelessly to ensure all our pets are healthy, happy, and ready for their forever homes. We provide comprehensive care, training, and support to make the adoption process smooth and successful.</p>
+                        <div class="stats">
+                            <div class="stat">
+                                <h3>1,500+</h3>
+                                <p>Happy Adoptions</p>
+                            </div>
+                            <div class="stat">
+                                <h3>15</h3>
+                                <p>Years of Service</p>
+                            </div>
+                            <div class="stat">
+                                <h3>24/7</h3>
+                                <p>Emergency Care</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=500&h=400&fit=crop" alt="Pet care team">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Get In Touch</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h3>Visit Us</h3>
+                                <p>123 Pet Street, Animal City, AC 12345</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h3>Call Us</h3>
+                                <p>+1 (555) 123-PETS</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h3>Email Us</h3>
+                                <p>hello@pawsandwhiskers.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h3>Hours</h3>
+                                <p>Mon-Fri: 9AM-7PM<br>Sat-Sun: 10AM-6PM</p>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="contact-form">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <input type="tel" placeholder="Your Phone">
+                        <select required>
+                            <option value="">Select Service</option>
+                            <option value="adoption">Pet Adoption</option>
+                            <option value="grooming">Grooming</option>
+                            <option value="healthcare">Health Care</option>
+                            <option value="training">Training</option>
+                        </select>
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                        <button type="submit" class="btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="fas fa-paw"></i>
+                        <span>Paws & Whiskers</span>
+                    </div>
+                    <p>Making tails wag and hearts happy since 2008.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#pets">Adopt a Pet</a></li>
+                        <li><a href="#services">Our Services</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Pet Adoption</a></li>
+                        <li><a href="#">Veterinary Care</a></li>
+                        <li><a href="#">Pet Grooming</a></li>
+                        <li><a href="#">Training Classes</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for pet care tips and adoption updates!</p>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Your email">
+                        <button>Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Paws & Whiskers Pet Store. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Test framework
+        let testResults = {};
+        let testLog = [];
+
+        function log(message) {
+            testLog.push(new Date().toLocaleTimeString() + ': ' + message);
+            const logElement = document.getElementById('test-log');
+            if (logElement) {
+                logElement.textContent = testLog.join('\n');
+                logElement.scrollTop = logElement.scrollHeight;
+            }
+            console.log('[TEST]', message);
+        }
+
+        function updateTestResult(testId, passed, message = '') {
+            testResults[testId] = passed;
+            const element = document.getElementById(testId);
+            if (element) {
+                element.className = `test-item ${passed ? 'pass' : 'fail'}`;
+                element.querySelector('span:last-child').textContent = passed ? '✅' : '❌';
+            }
+            log(`${testId}: ${passed ? 'PASS' : 'FAIL'} ${message}`);
+        }
+
+        function testHamburgerMenu() {
+            log('Testing hamburger menu...');
+            try {
+                const hamburger = document.querySelector('.hamburger');
+                const navMenu = document.querySelector('.nav-menu');
+                
+                if (!hamburger || !navMenu) {
+                    updateTestResult('test-hamburger', false, 'Elements not found');
+                    return;
+                }
+
+                // Test initial state
+                const initialHasActive = navMenu.classList.contains('active');
+                
+                // Simulate click
+                hamburger.click();
+                
+                // Check if menu was toggled
+                const afterClickHasActive = navMenu.classList.contains('active');
+                const hamburgerActive = hamburger.classList.contains('active');
+                
+                updateTestResult('test-hamburger', 
+                    initialHasActive !== afterClickHasActive && hamburgerActive,
+                    `Menu toggled: ${afterClickHasActive}, Hamburger active: ${hamburgerActive}`
+                );
+            } catch (error) {
+                updateTestResult('test-hamburger', false, error.message);
+            }
+        }
+
+        function testNavLinks() {
+            log('Testing nav link handlers...');
+            try {
+                const navLinks = document.querySelectorAll('.nav-menu a');
+                const navMenu = document.querySelector('.nav-menu');
+                const hamburger = document.querySelector('.hamburger');
+                
+                if (navLinks.length === 0) {
+                    updateTestResult('test-nav-links', false, 'No nav links found');
+                    return;
+                }
+
+                // Make sure menu is active first
+                navMenu.classList.add('active');
+                hamburger.classList.add('active');
+                
+                // Click first nav link
+                navLinks[0].click();
+                
+                // Check if menu was closed
+                const menuClosed = !navMenu.classList.contains('active');
+                const hamburgerClosed = !hamburger.classList.contains('active');
+                
+                updateTestResult('test-nav-links', 
+                    menuClosed && hamburgerClosed,
+                    `Menu closed: ${menuClosed}, Hamburger closed: ${hamburgerClosed}`
+                );
+            } catch (error) {
+                updateTestResult('test-nav-links', false, error.message);
+            }
+        }
+
+        function testScrollHeader() {
+            log('Testing scroll header effects...');
+            try {
+                const header = document.querySelector('.header');
+                if (!header) {
+                    updateTestResult('test-scroll-header', false, 'Header not found');
+                    return;
+                }
+
+                const initialBackground = header.style.background;
+                
+                // Simulate scroll down
+                window.scrollTo(0, 150);
+                
+                // Trigger scroll event manually
+                window.dispatchEvent(new Event('scroll'));
+                
+                setTimeout(() => {
+                    const afterScrollBackground = header.style.background;
+                    const hasBackdropFilter = header.style.backdropFilter.includes('blur');
+                    
+                    updateTestResult('test-scroll-header', 
+                        afterScrollBackground !== initialBackground && hasBackdropFilter,
+                        `Background changed: ${afterScrollBackground !== initialBackground}, Backdrop filter: ${hasBackdropFilter}`
+                    );
+                    
+                    // Reset scroll
+                    window.scrollTo(0, 0);
+                }, 100);
+            } catch (error) {
+                updateTestResult('test-scroll-header', false, error.message);
+            }
+        }
+
+        function testScrollToTop() {
+            log('Testing scroll to top button...');
+            try {
+                const scrollToTopBtn = document.querySelector('.scroll-to-top');
+                if (!scrollToTopBtn) {
+                    updateTestResult('test-scroll-top', false, 'Scroll to top button not found');
+                    return;
+                }
+
+                // Scroll down to make button visible
+                window.scrollTo(0, 400);
+                window.dispatchEvent(new Event('scroll'));
+                
+                setTimeout(() => {
+                    const isVisible = scrollToTopBtn.style.display === 'flex';
+                    
+                    if (isVisible) {
+                        // Test click functionality
+                        scrollToTopBtn.click();
+                        
+                        setTimeout(() => {
+                            const scrolledToTop = window.scrollY < 10;
+                            updateTestResult('test-scroll-top', scrolledToTop, 
+                                `Button visible: ${isVisible}, Scrolled to top: ${scrolledToTop}`
+                            );
+                        }, 100);
+                    } else {
+                        updateTestResult('test-scroll-top', false, 'Button not visible after scroll');
+                    }
+                }, 100);
+            } catch (error) {
+                updateTestResult('test-scroll-top', false, error.message);
+            }
+        }
+
+        function testSmoothScroll() {
+            log('Testing smooth scroll for anchor links...');
+            try {
+                const anchorLinks = document.querySelectorAll('a[href^="#"]');
+                if (anchorLinks.length === 0) {
+                    updateTestResult('test-smooth-scroll', false, 'No anchor links found');
+                    return;
+                }
+
+                // Test first anchor link
+                const firstLink = anchorLinks[0];
+                const targetId = firstLink.getAttribute('href');
+                const target = document.querySelector(targetId);
+                
+                if (!target) {
+                    updateTestResult('test-smooth-scroll', false, `Target ${targetId} not found`);
+                    return;
+                }
+
+                const initialScroll = window.scrollY;
+                firstLink.click();
+                
+                setTimeout(() => {
+                    const scrollChanged = window.scrollY !== initialScroll;
+                    updateTestResult('test-smooth-scroll', scrollChanged,
+                        `Scroll changed from ${initialScroll} to ${window.scrollY}`
+                    );
+                }, 200);
+            } catch (error) {
+                updateTestResult('test-smooth-scroll', false, error.message);
+            }
+        }
+
+        function testAdoptButtons() {
+            log('Testing adopt button handlers...');
+            try {
+                const adoptButtons = document.querySelectorAll('.btn-adopt');
+                if (adoptButtons.length === 0) {
+                    updateTestResult('test-adopt-buttons', false, 'No adopt buttons found');
+                    return;
+                }
+
+                // Override alert to capture the message
+                let alertMessage = '';
+                const originalAlert = window.alert;
+                window.alert = (msg) => { alertMessage = msg; };
+                
+                // Click first adopt button
+                adoptButtons[0].click();
+                
+                // Restore alert
+                window.alert = originalAlert;
+                
+                const hasCorrectMessage = alertMessage.includes('Buddy') && alertMessage.includes('adopting');
+                updateTestResult('test-adopt-buttons', hasCorrectMessage,
+                    `Alert message: "${alertMessage}"`
+                );
+            } catch (error) {
+                updateTestResult('test-adopt-buttons', false, error.message);
+            }
+        }
+
+        function testContactForm() {
+            log('Testing contact form...');
+            try {
+                const contactForm = document.querySelector('.contact-form');
+                if (!contactForm) {
+                    updateTestResult('test-contact-form', false, 'Contact form not found');
+                    return;
+                }
+
+                // Fill out form
+                contactForm.querySelector('input[type="text"]').value = 'Test User';
+                contactForm.querySelector('input[type="email"]').value = 'test@example.com';
+                contactForm.querySelector('select').value = 'adoption';
+                contactForm.querySelector('textarea').value = 'Test message';
+
+                // Override alert to capture validation
+                let alertMessage = '';
+                const originalAlert = window.alert;
+                window.alert = (msg) => { alertMessage = msg; };
+
+                // Submit form
+                const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+                contactForm.dispatchEvent(submitEvent);
+
+                // Check for success message
+                setTimeout(() => {
+                    const successMessage = document.querySelector('[style*="background: #d4edda"]');
+                    const formReset = !contactForm.querySelector('input[type="text"]').value;
+                    
+                    window.alert = originalAlert;
+                    
+                    updateTestResult('test-contact-form', 
+                        successMessage !== null && formReset,
+                        `Success message shown: ${successMessage !== null}, Form reset: ${formReset}`
+                    );
+                }, 100);
+            } catch (error) {
+                updateTestResult('test-contact-form', false, error.message);
+            }
+        }
+
+        function testHeroButtons() {
+            log('Testing hero button navigation...');
+            try {
+                const heroButtons = document.querySelectorAll('.hero-buttons button');
+                if (heroButtons.length === 0) {
+                    updateTestResult('test-hero-buttons', false, 'Hero buttons not found');
+                    return;
+                }
+
+                const initialScroll = window.scrollY;
+                
+                // Test "Browse Pets" button
+                const browsePetsBtn = Array.from(heroButtons).find(btn => btn.textContent.trim() === 'Browse Pets');
+                if (browsePetsBtn) {
+                    browsePetsBtn.click();
+                    
+                    setTimeout(() => {
+                        const scrollChanged = window.scrollY !== initialScroll;
+                        updateTestResult('test-hero-buttons', scrollChanged,
+                            `Scroll changed from ${initialScroll} to ${window.scrollY}`
+                        );
+                    }, 200);
+                } else {
+                    updateTestResult('test-hero-buttons', false, 'Browse Pets button not found');
+                }
+            } catch (error) {
+                updateTestResult('test-hero-buttons', false, error.message);
+            }
+        }
+
+        function testNewsletter() {
+            log('Testing newsletter subscription...');
+            try {
+                const newsletterForm = document.querySelector('.newsletter');
+                if (!newsletterForm) {
+                    updateTestResult('test-newsletter', false, 'Newsletter form not found');
+                    return;
+                }
+
+                const input = newsletterForm.querySelector('input');
+                const button = newsletterForm.querySelector('button');
+                
+                if (!input || !button) {
+                    updateTestResult('test-newsletter', false, 'Newsletter input/button not found');
+                    return;
+                }
+
+                // Test with valid email
+                input.value = 'test@example.com';
+
+                // Override alert to capture message
+                let alertMessage = '';
+                const originalAlert = window.alert;
+                window.alert = (msg) => { alertMessage = msg; };
+
+                button.click();
+
+                // Restore alert
+                window.alert = originalAlert;
+
+                const hasCorrectMessage = alertMessage.includes('subscribing') && alertMessage.includes('test@example.com');
+                const inputCleared = input.value === '';
+                
+                updateTestResult('test-newsletter', hasCorrectMessage && inputCleared,
+                    `Alert message: "${alertMessage}", Input cleared: ${inputCleared}`
+                );
+            } catch (error) {
+                updateTestResult('test-newsletter', false, error.message);
+            }
+        }
+
+        function testAnimations() {
+            log('Testing intersection observer animations...');
+            try {
+                const observedElements = document.querySelectorAll('.service-card, .pet-card, .stat');
+                if (observedElements.length === 0) {
+                    updateTestResult('test-animations', false, 'No observed elements found');
+                    return;
+                }
+
+                // Check if elements have been set up for animation
+                let elementsSetUp = 0;
+                observedElements.forEach(el => {
+                    if (el.style.opacity === '0' && el.style.transform.includes('translateY')) {
+                        elementsSetUp++;
+                    }
+                });
+
+                const allElementsSetUp = elementsSetUp === observedElements.length;
+                updateTestResult('test-animations', allElementsSetUp,
+                    `${elementsSetUp}/${observedElements.length} elements properly set up for animation`
+                );
+            } catch (error) {
+                updateTestResult('test-animations', false, error.message);
+            }
+        }
+
+        function runAllTests() {
+            log('Starting comprehensive event handler tests...');
+            document.getElementById('test-log').textContent = '';
+            testLog = [];
+            
+            // Reset all test results
+            document.querySelectorAll('.test-item').forEach(item => {
+                item.className = 'test-item pending';
+                item.querySelector('span:last-child').textContent = '⏳';
+            });
+
+            // Run tests with delays to allow for async operations
+            setTimeout(testHamburgerMenu, 100);
+            setTimeout(testNavLinks, 300);
+            setTimeout(testScrollHeader, 500);
+            setTimeout(testScrollToTop, 1000);
+            setTimeout(testSmoothScroll, 1500);
+            setTimeout(testAdoptButtons, 2000);
+            setTimeout(testContactForm, 2200);
+            setTimeout(testHeroButtons, 2500);
+            setTimeout(testNewsletter, 2700);
+            setTimeout(testAnimations, 3000);
+            
+            setTimeout(() => {
+                const totalTests = Object.keys(testResults).length;
+                const passedTests = Object.values(testResults).filter(result => result).length;
+                log(`\n=== TEST SUMMARY ===`);
+                log(`${passedTests}/${totalTests} tests passed`);
+                log(`Success rate: ${Math.round((passedTests/totalTests) * 100)}%`);
+            }, 3500);
+        }
+
+        function clearResults() {
+            testResults = {};
+            testLog = [];
+            document.getElementById('test-log').textContent = '';
+            document.querySelectorAll('.test-item').forEach(item => {
+                item.className = 'test-item pending';
+                item.querySelector('span:last-child').textContent = '⏳';
+            });
+            log('Test results cleared');
+        }
+
+        // Auto-run tests when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                log('Event handlers loaded, ready for testing');
+                log('Click "Run All Tests" to begin automated testing');
+                
+                // Add test log container
+                const testPanel = document.querySelector('.test-panel');
+                if (!document.getElementById('test-log')) {
+                    const logDiv = document.createElement('div');
+                    logDiv.id = 'test-log';
+                    logDiv.className = 'test-log';
+                    testPanel.appendChild(logDiv);
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
